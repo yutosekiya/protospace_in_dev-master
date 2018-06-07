@@ -1,5 +1,6 @@
 class PrototypesController < ApplicationController
-  before_action :set_prototype, only: :show
+  before_action :set_prototype, only: [:show, :edit, :update]
+  before_action :set_thumbnail, only: [:edit, :update]
 
   def index
     @prototypes = Prototype.all
@@ -22,10 +23,23 @@ class PrototypesController < ApplicationController
   def show
   end
 
+  def update
+    if @prototype.update(prototype_params)
+      redirect_to @prototype, notice: "Prototype has edited successfully."
+    else
+      render edit_prototype_path(@prototype)
+    end
+  end
+
   private
 
   def set_prototype
     @prototype = Prototype.find(params[:id])
+  end
+
+  def set_thumbnail
+    @main_thumbnail = @prototype.captured_images.main
+    @sub_thumbnails = @prototype.captured_images.sub
   end
 
   def prototype_params
@@ -34,7 +48,7 @@ class PrototypesController < ApplicationController
       :catch_copy,
       :concept,
       :user_id,
-      captured_images_attributes: [:content, :status]
+      captured_images_attributes: [:id, :content, :status]
     )
   end
 end
