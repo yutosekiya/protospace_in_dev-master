@@ -1,5 +1,5 @@
 class PrototypesController < ApplicationController
-  before_action :set_prototype, only: [:show, :edit, :update]
+  before_action :set_prototype, only: [:show, :edit, :update,:destroy]
   before_action :set_thumbnail, only: [:edit, :update]
 
   def index
@@ -29,6 +29,11 @@ class PrototypesController < ApplicationController
     else
       render edit_prototype_path(@prototype)
     end
+  end
+
+  def destroy
+      @prototype.destroy if current_user.id == @prototype.user_id
+      redirect_to :root
   end
 
   private

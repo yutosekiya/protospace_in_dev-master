@@ -9,3 +9,6 @@
           = link_to prototype.user.name, user_path(prototype.user)
         .proto-posted
           = prototype.posted_date
+      .proto-button.btn-group
+        = button_to "編集", edit_prototype_path(prototype), method: :get, class: 'btn btn-info '
+        = button_to "削除", prototype_path(prototype), method: :delete, class: 'btn btn-danger'
