@@ -3,7 +3,7 @@ class PrototypesController < ApplicationController
   before_action :set_thumbnail, only: [:edit, :update]
 
   def index
-    @prototypes = Prototype.all
+    @prototypes = Prototype.page(params[:page]).per(5)
   end
 
   def new
