@@ -12,4 +12,9 @@ class ApplicationController < ActionController::Base
   def after_sign_out_path_for(resource)
     new_user_session_path
   end
+
+  def user_logged_in?
+    redirect_to root_path unless user_signed_in?
+    flash[:notice] = "Please loggin."
+  end
 end
