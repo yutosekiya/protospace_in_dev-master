@@ -23,6 +23,12 @@ class PrototypesController < ApplicationController
   def show
   end
 
+  def edit
+    (3 - @sub_thumbnails.length).times do
+      @sub_thumbnails << @prototype.captured_images.sub.new
+    end
+  end
+
   def update
     if @prototype.update(prototype_params)
       redirect_to @prototype, notice: "Prototype has edited successfully."
