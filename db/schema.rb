@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180613054452) do
+ActiveRecord::Schema.define(version: 20180613061625) do
 
   create_table "captured_images", force: :cascade do |t|
     t.string  "content",      limit: 255
@@ -24,8 +24,8 @@ ActiveRecord::Schema.define(version: 20180613054452) do
   create_table "prototype_tags", force: :cascade do |t|
     t.integer  "prototype_id", limit: 4
     t.integer  "tag_id",       limit: 4
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   add_index "prototype_tags", ["prototype_id"], name: "fk_rails_59eb063bb4", using: :btree
@@ -44,8 +44,8 @@ ActiveRecord::Schema.define(version: 20180613054452) do
 
   create_table "tags", force: :cascade do |t|
     t.string   "content",    limit: 255, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "users", force: :cascade do |t|
