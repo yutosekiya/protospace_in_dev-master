@@ -1,5 +1,5 @@
 class PrototypesController < ApplicationController
-  before_action :set_prototype, only: [:show, :edit, :update,:destroy]
+  before_action :set_prototype, only: [:show, :edit, :update, :destroy]
   before_action :set_thumbnail, only: [:edit, :update]
 
   def index
