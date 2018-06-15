@@ -4,15 +4,15 @@ class Prototype < ActiveRecord::Base
   has_many :prototype_tags, dependent: :destroy
   has_many :tags, through: :prototype_tags
 
-  accepts_nested_attributes_for :captured_images, reject_if: :reject_sub_images
   accepts_nested_attributes_for :tags
+  accepts_nested_attributes_for :captured_images, reject_if: :reject_empty_content
 
   validates :title,
             :catch_copy,
             :concept,
             presence: true
 
-  def reject_sub_images(attributed)
+  def reject_empty_content(attributed)
     attributed['content'].blank?
   end
 
