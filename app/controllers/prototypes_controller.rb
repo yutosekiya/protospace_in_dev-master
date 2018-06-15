@@ -1,6 +1,7 @@
 class PrototypesController < ApplicationController
   before_action :set_prototype, only: [:show, :edit, :update, :destroy]
   before_action :set_thumbnail, only: [:edit, :update]
+  before_action :set_tags,      only: [:edit, :update]
 
   def index
     @prototypes = Prototype.page(params[:page]).per(5)
@@ -28,6 +29,9 @@ class PrototypesController < ApplicationController
     (3 - @sub_thumbnails.length).times do
       @sub_thumbnails << @prototype.captured_images.sub.new
     end
+    (Prototype::MAX_TAG_LENGTH - @tags.length).times do
+      @prototype.tags.build
+    end
   end
 
   def update
@@ -52,6 +56,10 @@ class PrototypesController < ApplicationController
   def set_thumbnail
     @main_thumbnail = @prototype.captured_images.main
     @sub_thumbnails = @prototype.captured_images.sub
+  end
+
+  def set_tags
+    @tags = @prototype.tags
   end
 
   def prototype_params
