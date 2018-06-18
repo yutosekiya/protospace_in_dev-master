@@ -16,7 +16,7 @@ class Prototype < ActiveRecord::Base
 
   validates :tags, length: { maximum: MAX_TAG_LENGTH }
 
-  before_save :delete_blank_tag_relation
+  before_save :delete_blank_tag_relation, :check_tag_existence
 
   def reject_empty_content(attributed)
     attributed['content'].blank?
@@ -26,6 +26,17 @@ class Prototype < ActiveRecord::Base
   def delete_blank_tag_relation
     tags.each{ |tag| tag.mark_for_destruction if tag.content.blank? }
     true
+  end
+
+  # タグの新規作成時、すでに同じcontentsのTagがあれば入れ替え。
+  # DBに保存されているタグは消せないのでpersistedでチェック。
+  def check_tag_existence
+    tags.each do |tag|
+      if !(tag.persisted?) && Tag.exists?(content: tag.content)
+        tags << Tag.find_by(content: tag.content)
+        tag.delete
+      end
+    end
   end
 
   def set_main_thumbnail
