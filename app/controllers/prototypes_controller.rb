@@ -1,6 +1,6 @@
 class PrototypesController < ApplicationController
   before_action :user_logged_in?, except: :index
-  before_action :set_prototype, only: [:show, :edit, :update, :destroy]
+  before_action :set_prototype, only: [:show, :edit, :update,:destroy]
   before_action :set_thumbnail, only: [:edit, :update]
   before_action :set_tags,      only: [:edit, :update]
 
