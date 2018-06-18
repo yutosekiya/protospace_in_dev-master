@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160405022520) do
+ActiveRecord::Schema.define(version: 20180613061625) do
 
   create_table "captured_images", force: :cascade do |t|
     t.string  "content",      limit: 255
@@ -20,6 +20,16 @@ ActiveRecord::Schema.define(version: 20160405022520) do
   end
 
   add_index "captured_images", ["prototype_id"], name: "index_captured_images_on_prototype_id", using: :btree
+
+  create_table "prototype_tags", force: :cascade do |t|
+    t.integer  "prototype_id", limit: 4
+    t.integer  "tag_id",       limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "prototype_tags", ["prototype_id"], name: "fk_rails_59eb063bb4", using: :btree
+  add_index "prototype_tags", ["tag_id"], name: "fk_rails_9c34f9fe0b", using: :btree
 
   create_table "prototypes", force: :cascade do |t|
     t.string   "title",      limit: 255
@@ -31,6 +41,12 @@ ActiveRecord::Schema.define(version: 20160405022520) do
   end
 
   add_index "prototypes", ["user_id"], name: "index_prototypes_on_user_id", using: :btree
+
+  create_table "tags", force: :cascade do |t|
+    t.string   "content",    limit: 255, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255,   default: "", null: false
@@ -56,5 +72,7 @@ ActiveRecord::Schema.define(version: 20160405022520) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "captured_images", "prototypes"
+  add_foreign_key "prototype_tags", "prototypes"
+  add_foreign_key "prototype_tags", "tags"
   add_foreign_key "prototypes", "users"
 end

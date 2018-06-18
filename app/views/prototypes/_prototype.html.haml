@@ -9,6 +9,9 @@
           = link_to prototype.user.name, user_path(prototype.user)
         .proto-posted
           = prototype.posted_date
+      .proto-tags
+        - prototype.tags.each do |tag|
+          = link_to tag.content, tag_path(tag.id), class: 'btn btn-default'
       .proto-button.btn-group
-        = button_to "編集", edit_prototype_path(prototype), method: :get, class: 'btn btn-info '
-        = button_to "削除", prototype_path(prototype), method: :delete, class: 'btn btn-danger'
+        = link_to "編集", edit_prototype_path(prototype), class: 'btn btn-info '
+        = link_to "削除", prototype_path(prototype), method: :delete, class: 'btn btn-danger'
