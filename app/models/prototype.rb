@@ -6,7 +6,7 @@ class Prototype < ActiveRecord::Base
   has_many :prototype_tags, dependent: :destroy
   has_many :tags, through: :prototype_tags
 
-  accepts_nested_attributes_for :tags, reject_if: :reject_empty_content, allow_destroy: true
+  accepts_nested_attributes_for :tags, allow_destroy: true
   accepts_nested_attributes_for :captured_images, reject_if: :reject_empty_content
 
   validates :title,
@@ -16,16 +16,15 @@ class Prototype < ActiveRecord::Base
 
   validates :tags, length: { maximum: MAX_TAG_LENGTH }
 
-  before_save :delete_blank_tag_relation
+  before_save :delete_blank_tag, :check_tag_existence
 
   def reject_empty_content(attributed)
     attributed['content'].blank?
   end
 
-  # Tagのcontentsが""の場合、Relationを削除
-  def delete_blank_tag_relation
-    tags.each{ |tag| tag.mark_for_destruction if tag.content.blank? }
-    true
+  # Tagのcontentsが空の場合は削除
+  def delete_blank_tag
+    tags.each { |tag| tags.delete(tag) if tag.content.blank? }
   end
 
   def set_main_thumbnail
