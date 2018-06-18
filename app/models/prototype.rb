@@ -28,13 +28,12 @@ class Prototype < ActiveRecord::Base
     true
   end
 
-  # タグの新規作成時、すでに同じcontentsのTagがあれば入れ替え。
-  # DBに保存されているタグは消せないのでpersistedでチェック。
+  # 同名のTagがすでにないかチェック
   def check_tag_existence
     tags.each do |tag|
-      if !(tag.persisted?) && Tag.exists?(content: tag.content)
-        tags << Tag.find_by(content: tag.content)
-        tag.delete
+      if tag.changed?
+        tags << Tag.find_or_create_by(content: tag.content)
+        tags.delete(tag)
       end
     end
   end
