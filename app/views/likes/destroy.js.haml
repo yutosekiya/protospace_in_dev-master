@@ -1,0 +1,2 @@
+$("#like-button-#{@prototype.id}").remove();
+$("#btn-group-prototype-#{@prototype.id}").prepend("#{ j(render partial: 'likes/like', locals: { prototype: @prototype, prototypes: @prototypes, likes: @likes, like: @like}) }")
