@@ -1,0 +1,7 @@
+- if user_signed_in?
+  - if current_user.like?(prototype)
+    = link_to prototype_like_path(like, prototype_id: prototype.id), method: :delete, id: "like-button-#{prototype.id}", class: 'btn btn-warning', remote: true do
+      %i{ class: 'glyphicon glyphicon-star' }
+  - else
+    = link_to prototype_likes_path(prototype), method: :post, id: "like-button-#{prototype.id}", class: 'btn btn-default', remote: true do
+      %i{ class: 'glyphicon glyphicon-star-empty' }

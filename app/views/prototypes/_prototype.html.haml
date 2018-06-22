@@ -12,6 +12,7 @@
       .proto-tags
         - prototype.tags.each do |tag|
           = link_to tag.content, tag_path(tag.id), class: 'btn btn-default'
-      .proto-button.btn-group
+      %div{ id: "btn-group-prototype-#{prototype.id}", class: "btn-group" }
+        = render partial: 'likes/like', locals: { prototype: prototype, like: prototype.likes(user_id: current_user.id).first }
         = link_to "編集", edit_prototype_path(prototype), class: 'btn btn-info '
         = link_to "削除", prototype_path(prototype), method: :delete, class: 'btn btn-danger'
